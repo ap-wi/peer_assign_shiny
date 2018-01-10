@@ -8,7 +8,6 @@
 #
 
 library(shiny)
-library(dbscan)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -47,7 +46,7 @@ shinyUI(fluidPage(
       
       numericInput( "dim", "Minkowski dimension", value=1 ),
       
-      checkboxInput("rotate", "dendrogram rotate", FALSE), 
+      checkboxInput("rotate", "Rotate dendrogram", TRUE), 
       
       textOutput("result")
 

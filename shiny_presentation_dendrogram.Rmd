@@ -1,5 +1,5 @@
 ---
-title: "Cluster Dendrogram"
+title: "My Dendrogram"
 author: "A. Paul"
 date: "6 Januar 2018"
 runtime: shiny
@@ -16,7 +16,7 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Presentation Cluster Dendrogram
+## Presentation Dendrogram
 
 In order to gain an initial overview of unknown data, it is often useful to cluster and visualize the clusters. A first possibility is hierarchical clustering and a presentation in a dendrogram.
 
@@ -30,18 +30,26 @@ In order to gain an initial overview of unknown data, it is often useful to clus
 
 ## Plot Dendrogram
 
+```{r include=FALSE}
+library( shiny )
+library( rsconnect )
+library( tidyverse )
+library( ggdendro )
+library( ggplot2 )
+```
+
 ```{r eruptions}
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
       
-      fileInput("file1", "Choose CSV File for matrix data",
+      fileInput("file1", "Choose CSV File for data",
                 accept = c(
                   "text/csv",
                   "text/comma-separated-values,text/plain",
                   ".csv") ),
-      checkboxInput("header", "CSV file with Header", TRUE),  
-      checkboxInput("display", "Display data", FALSE), 
+      checkboxInput("header", "with header", TRUE),  
+      checkboxInput("display", "with data", FALSE), 
       textOutput("name"),
       textOutput("size"),
       
@@ -62,7 +70,7 @@ In order to gain an initial overview of unknown data, it is often useful to clus
       
       numericInput( "dim", "Minkowski dimension", value=1 ),
       
-      checkboxInput("rotate", "Rotate dendrogram", TRUE)
+      checkboxInput("rotate", "Rotate", TRUE)
 
     ),
     
@@ -107,9 +115,9 @@ output$plotDendrogram <- renderPlot({
   }
   
   ## generate cluster dendogram based on input$metric and input$method
-  mat.dist <- stats::dist( x=my_data, method=input$metric, p=input$dim )
+  mat.dist <- dist( x=my_data, method=input$metric, p=input$dim )
   ## generate hierarchical     
-  h.clust   <- stats::hclust( mat.dist, method=input$method )
+  h.clust  <- hclust( mat.dist, method=input$method )
   ggdendro::ggdendrogram( h.clust, rotate=input$rotate, size=4, theme_dendro = TRUE )
   
 } )
