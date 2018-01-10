@@ -8,9 +8,7 @@
 #
 
 library( shiny )
-library( stats )
-library( tidyverse )
-library( sets )
+library( rsconnect )
 library( ggdendro )
 library( ggplot2 )
 
@@ -19,15 +17,18 @@ shinyServer(function(input, output) {
    
   output$plotDendrogram <- renderPlot({
     
+    l_desc <- "My dendrogram is used to create a dendrogram to represent the hierarchical clustering of an uploaded csv-file, wherein the shape can be determined by the choice of a cluster method and a metric."
+    output$desc <- renderText( l_desc )
+    
     inFile <- input$file1
     
     if (is.null(inFile)) {
       ## name
       l_name <- "test data"
       ## test data
-      my_data <- data.frame( x = c( 2, 4, 5, 3, 1, 9, 7, 6, 8 ),
-                             y = c( 6, 9, 6, 2, 7, 5, 4, 1, 2 ) )
-      rownames(my_data) <- c("one", "two", "three", "four", "five", "six", "seven", "eight", "nine" )
+      my_data <- data.frame( x = c( 2, 4, 5, 3, 1 ),
+                             y = c( 6, 9, 6, 2, 7 ) )
+      rownames(my_data) <- c("one", "two", "three", "four", "five" )
     } else {
       ## name
       l_name <- paste0( "file : ", inFile$name )
@@ -45,7 +46,7 @@ shinyServer(function(input, output) {
     } else {
       output$data <- renderText( paste0("") )
     }
-  
+    
     ## generate cluster dendogram based on input$metric and input$method
     mat.dist <- stats::dist( x=my_data, method=input$metric, p=input$dim )
     ## generate hierarchical     

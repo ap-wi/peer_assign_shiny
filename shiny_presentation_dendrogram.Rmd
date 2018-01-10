@@ -33,7 +33,6 @@ In order to gain an initial overview of unknown data, it is often useful to clus
 ```{r include=FALSE}
 library( shiny )
 library( rsconnect )
-library( tidyverse )
 library( ggdendro )
 library( ggplot2 )
 ```
@@ -124,7 +123,7 @@ output$plotDendrogram <- renderPlot({
 ```
 
 
-## Explanation of the selection parameters
+## Explanation: Selection Parameters
 
 * Box for "Choose CSV File" :
   Via a dialog window, a csv file can be selected and uploaded.
@@ -136,10 +135,10 @@ output$plotDendrogram <- renderPlot({
   The checkbox allows the user to display the data under the Dendrogram.
 
 * Selection list for a "Choose a cluster method" :
-  The following procedures are offered: "Single-Link", "Complete Link", "Average-Link", "Median-Link" or "Centroid link"
+  The following procedures are offered: "Single-Link", "Complete Link", "Average-Link", "Median-Link" or "Centroid link".
 
 * Selection list for a "Choose a distance metric" :
-  The following metrics are offered: "Euclidean", "Manhattan", "Minkowski" or "Binary"
+  The following metrics are offered: "Euclidean", "Manhattan", "Minkowski" or "Binary".
 
 * For the Minkowski metric an additional dimension can be chosen.
 

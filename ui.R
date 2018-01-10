@@ -13,7 +13,9 @@ library(shiny)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Cluster Dendrogram"),
+  titlePanel("My Dendrogram"),
+  
+  textOutput("desc"),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
@@ -54,6 +56,8 @@ shinyUI(fluidPage(
     
     # Show a plot of the generated distribution
     mainPanel(
+      tags$a(href = "https://apwi.shinyapps.io/Presentation_my_dendrogram", 
+             "Help My Dendrogram", target = "_blank"),
       plotOutput("plotDendrogram"),
       tableOutput("data")
     )
