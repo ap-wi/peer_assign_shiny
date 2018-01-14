@@ -1,0 +1,212 @@
+---
+title       : "My Dendrogram"
+subtitle    : "Presentation"
+author      : "A. Paul"
+job         : "14.1.2018"
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+runtime     : shiny
+knit        : slidify::knit2slides
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Presentation Dendrogram
+
+In order to gain an initial overview of unknown data, it is often useful to cluster and visualize the clusters. A first possibility is hierarchical clustering and a presentation in a dendrogram.
+
+- The following Shiny application is used to create a dendrogram to represent the hierarchical clustering of a data frame.
+- Initially, a test set of 5 data sets is displayed, which illustrates the presentation.
+- The application user has the option of uploading his data from a csv file.
+- After uploading, the number of records will be displayed as "size".
+- The uploaded data is clustered and displayed as a dendrogram on the right. The dendrogram can be rotated.
+- The creation of the hierarchical cluster can be defined by changing the metric and the method of clustering.
+- Optionally, the user can view the csv data below the dendrogram.
+
+--- 
+
+## Plot Dendrogram
+
+Website https://apwi.shinyapps.io/my_dendrogram/
+
+![smiling_face](my_dendrogram.png)
+
+```{r include=FALSE}
+library( shiny )
+library( rsconnect )
+library( devtools )
+library( slidify )
+library( RCurl )
+library( ggdendro )
+library( ggplot2 )
+```
+
+```{r eruptions}
+
+## test data
+my_data <- data.frame( x = c( 2, 4, 5, 3, 1 ),
+                       y = c( 6, 9, 6, 2, 7 ) )
+rownames(my_data) <- c("one", "two", "three", "four", "five" )
+
+server <- function( input, output ) {
+  
+  output$plotDendrogram <- renderPlot({
+    
+    l_desc <- "My Dendrogram is used to create a dendrogram to represent the hierarchical clustering of an uploaded csv-file, wherein the shape can be determined by the choice of a cluster method and a metric."
+    output$desc <- renderText( l_desc )
+    
+    inFile <- input$file1
+    
+    if (is.null(inFile)) {
+      ## name
+      l_name <- "test data"
+      ## test data
+      my_data <- data.frame( x = c( 2, 4, 5, 3, 1 ),
+                             y = c( 6, 9, 6, 2, 7 ) )
+      rownames(my_data) <- c("one", "two", "three", "four", "five" )
+    } else {
+      ## name
+      l_name <- paste0( "file : ", inFile$name )
+      ## read csv-file with matrix     
+      my_data <- read.csv( inFile$datapath, header=input$header )
+    } 
+
+    output$name <- renderText( l_name )
+    
+    l_text <- paste0( "size: ", nrow(my_data) )  
+    output$size <- renderText( l_text )
+    
+    if ( input$display == TRUE ) { 
+      output$data <- renderTable( my_data, rownames = TRUE)
+    } else {
+      output$data <- renderText( paste0("") )
+    }
+    
+    ## generate cluster dendogram based on input$metric and input$method
+    mat.dist <- stats::dist( x=my_data, method=input$metric, p=input$dim )
+    ## generate hierarchical     
+    h.clust   <- stats::hclust( mat.dist, method=input$method )
+    ggdendro::ggdendrogram( h.clust, rotate=input$rotate, size=5, theme_dendro = TRUE )
+    
+  })  
+  
+}
+
+ui <- fluidPage(
+ 
+  # Application title
+  titlePanel("My Dendrogram"),
+  
+  textOutput("desc"),
+  
+  # Sidebar with a slider input for number of bins 
+  sidebarLayout(
+    sidebarPanel(
+      
+      ## fileInput("file1", "Choose CSV File for matrix data",
+      ##          accept = c(
+      ##            "text/csv",
+      ##            "text/comma-separated-values,text/plain",
+      ##            ".csv") ),
+      checkboxInput("header", "CSV file with Header", TRUE),  
+      checkboxInput("display", "Display data", FALSE), 
+      textOutput("name"),
+      textOutput("size"),
+      
+      ## tags$hr(),
+      
+      selectInput( "method", "Choose a cluster method:",
+                   list( `Single-Link`   = c("single"),
+                         `Complete-Link` = c("complete"),
+                         `Average-Link`  = c("average"),
+                         `Median-Link`   = c("median"),
+                         `Centroid-Link` = c("centroid") ) ),
+      
+      selectInput( "metric", "Choose a distance metric:",
+                   list( `Euclidian` = c("euclidean"),
+                         `Manhattan` = c("manhattan"),                       
+                         `Minkowski` = c("minkowski"),
+                         `Binary`    = c("binary") ) ),
+      
+      numericInput( "dim", "Minkowski dimension", value=1 ),
+      
+      checkboxInput("rotate", "Rotate dendrogram", TRUE), 
+      
+      textOutput("result")
+
+    ),
+    
+    # Show a plot of the generated distribution
+    mainPanel(
+      tags$a(href = "https://apwi.shinyapps.io/Presentation_my_dendrogram", 
+             "Help My Dendrogram", target = "_blank"),
+      plotOutput("plotDendrogram"),
+      tableOutput("data")
+    )
+  ) 
+  
+ )
+
+ shinyApp(ui = ui, server = server)
+
+```
+
+---
+
+## Explanation: Selection Parameters
+
+* Box for "Choose CSV File" :
+  Via a dialog window, a csv file can be selected and uploaded.
+
+* Checkbox for "CSV file with Header" :
+  If the csv file has a header, the checkbox should be selected.
+
+* Checkbox for "Display data" :
+  The checkbox allows the user to display the data under the Dendrogram.
+
+* Selection list for a "Choose a cluster method" :
+  The following procedures are offered: "Single-Link", "Complete Link", "Average-Link", "Median-Link" or "Centroid link".
+
+* Selection list for a "Choose a distance metric" :
+  The following metrics are offered: "Euclidean", "Manhattan", "Minkowski" or "Binary".
+
+* For the Minkowski metric an additional dimension can be chosen.
+
+* Further Information :                                                               
+Website https://cran.r-project.org/web/packages/ggdendro/vignettes/ggdendro.html
+
+--- 
+
+## Test Data and Clustering
+```{r echo=FALSE}
+  ## To illustrate, here are the test data.
+  my_data <- data.frame( x = c( 2, 4, 5, 3, 1 ), 
+                         y = c( 6, 9, 6, 2, 7 ) )
+  rownames(my_data) <- c("one", "two", "three", "four", "five" )
+  ## my_data
+  print( my_data )
+```
+```{r}
+  ## generate cluster dendogram based on input$metric and input$method
+  l_metric <- "manhattan"
+  mat.dist <- stats::dist( x=my_data, method=l_metric )
+  ## generate hierarchical
+  l_method <- "single"
+  h.clust <- stats::hclust( mat.dist, method=l_method )
+  ## dendrogram
+  my_dend <- stats::as.dendrogram(h.clust)
+  ## print(h.clust)
+  ## paste0( "Cluster method : ", h.clust$method, " with ", "Distance : ", h.clust$dist.method )
+```
+Enclosed the clustering with the leaves and the gradual union including the heights.
+```{r echo=FALSE}
+str(my_dend)
+```
+

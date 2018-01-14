@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Dendrogram</title>
+  <meta charset="utf-8">
+  <meta name="description" content="My Dendrogram">
+  <meta name="author" content="A. Paul">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>My Dendrogram</h1>
+    <h2>Presentation</h2>
+    <p>A. Paul<br/>14.1.2018</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Presentation Dendrogram</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>In order to gain an initial overview of unknown data, it is often useful to cluster and visualize the clusters. A first possibility is hierarchical clustering and a presentation in a dendrogram.</p>
+
+<ul>
+<li>The following Shiny application is used to create a dendrogram to represent the hierarchical clustering of a data frame.</li>
+<li>Initially, a test set of 5 data sets is displayed, which illustrates the presentation.</li>
+<li>The application user has the option of uploading his data from a csv file.</li>
+<li>After uploading, the number of records will be displayed as &quot;size&quot;.</li>
+<li>The uploaded data is clustered and displayed as a dendrogram on the right. The dendrogram can be rotated.</li>
+<li>The creation of the hierarchical cluster can be defined by changing the metric and the method of clustering.</li>
+<li>Optionally, the user can view the csv data below the dendrogram.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Plot Dendrogram</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Website <a href="https://apwi.shinyapps.io/my_dendrogram/">https://apwi.shinyapps.io/my_dendrogram/</a></p>
+
+<p><img src="my_dendrogram.png" alt="smiling_face"></p>
+
+<pre><code>## Error in appshot.shiny.appobj(structure(list(httpHandler = function (req) : appshot of Shiny app objects is not yet supported.
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Explanation: Selection Parameters</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Box for &quot;Choose CSV File&quot; :
+Via a dialog window, a csv file can be selected and uploaded.</p></li>
+<li><p>Checkbox for &quot;CSV file with Header&quot; :
+If the csv file has a header, the checkbox should be selected.</p></li>
+<li><p>Checkbox for &quot;Display data&quot; :
+The checkbox allows the user to display the data under the Dendrogram.</p></li>
+<li><p>Selection list for a &quot;Choose a cluster method&quot; :
+The following procedures are offered: &quot;Single-Link&quot;, &quot;Complete Link&quot;, &quot;Average-Link&quot;, &quot;Median-Link&quot; or &quot;Centroid link&quot;.</p></li>
+<li><p>Selection list for a &quot;Choose a distance metric&quot; :
+The following metrics are offered: &quot;Euclidean&quot;, &quot;Manhattan&quot;, &quot;Minkowski&quot; or &quot;Binary&quot;.</p></li>
+<li><p>For the Minkowski metric an additional dimension can be chosen.</p></li>
+<li><p>Further Information :<br>
+Website <a href="https://cran.r-project.org/web/packages/ggdendro/vignettes/ggdendro.html">https://cran.r-project.org/web/packages/ggdendro/vignettes/ggdendro.html</a></p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Test Data and Clustering</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>##       x y
+## one   2 6
+## two   4 9
+## three 5 6
+## four  3 2
+## five  1 7
+</code></pre>
+
+<p>Enclosed the clustering with the leaves and the gradual union including the heights.</p>
+
+<pre><code>## --[dendrogram w/ 2 branches and 5 members at h = 5]
+##   |--leaf &quot;four&quot; 
+##   `--[dendrogram w/ 2 branches and 4 members at h = 4]
+##      |--leaf &quot;two&quot; 
+##      `--[dendrogram w/ 2 branches and 3 members at h = 3]
+##         |--leaf &quot;three&quot; 
+##         `--[dendrogram w/ 2 branches and 2 members at h = 2]
+##            |--leaf &quot;one&quot; 
+##            `--leaf &quot;five&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Presentation Dendrogram'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Plot Dendrogram'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Explanation: Selection Parameters'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Test Data and Clustering'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
