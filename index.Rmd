@@ -48,7 +48,7 @@ library( ggdendro )
 library( ggplot2 )
 ```
 
-```{r eruptions}
+```{r eruptions, eval=FALSE, include=FALSE}
 
 ## test data
 my_data <- data.frame( x = c( 2, 4, 5, 3, 1 ),

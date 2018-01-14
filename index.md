@@ -39,9 +39,6 @@ Website https://apwi.shinyapps.io/my_dendrogram/
 
 
 
-```
-## Error in appshot.shiny.appobj(structure(list(httpHandler = function (req) : appshot of Shiny app objects is not yet supported.
-```
 
 ---
 
