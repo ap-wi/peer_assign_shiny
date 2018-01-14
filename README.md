@@ -7,4 +7,4 @@ Shiny URL https://apwi.shinyapps.io/my_dendrogram/
 Shiny URL https://apwi.shinyapps.io/Presentation_my_dendrogram
 
 #### Presentation_My_Dendrogram
-Github URL https://rawgit.com/ap-wi/peer_assign_shiny/master/Presentation_My_Dendrogram
+Github URL https://rawgit.com/ap-wi/peer_assign_shiny/master/Presentation_My_Dendrogram.html
